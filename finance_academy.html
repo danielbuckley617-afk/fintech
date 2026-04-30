@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Finance Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1814;
+  --paper: #f5f0e8;
+  --paper2: #ede7d8;
+  --paper3: #e4dcc8;
+  --rule: #c8bfa8;
+  --rule-light: #ddd5c0;
+  --amber: #b8731a;
+  --amber-light: #d4891f;
+  --amber-pale: rgba(184,115,26,0.1);
+  --green: #2d7a4f;
+  --red: #8b2d1a;
+  --blue: #1a3d6b;
+  --text: #2c2618;
+  --text-mid: #6b5f4a;
+  --text-dim: #9a8e7a;
+  --private: #2d7a4f;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--text);
+  font-family: 'Lora', Georgia, serif;
+  min-height: 100vh;
+  background-image:
+    repeating-linear-gradient(
+      transparent,
+      transparent 27px,
+      var(--rule-light) 27px,
+      var(--rule-light) 28px
+    );
+  background-attachment: fixed;
+}
+
+/* PRIVACY BANNER */
+.privacy-banner {
+  background: var(--green);
+  color: #fff;
+  text-align: center;
+  padding: 8px 20px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* HEADER */
+header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 28px 48px 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.logo h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.logo p {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--amber-light);
+  margin-top: 5px;
+}
+
+.progress-area { text-align: right; }
+
+.progress-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.progress-dots { display: flex; gap: 4px; justify-content: flex-end; }
+
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #3a3530;
+  transition: background 0.3s;
+}
+.dot.done { background: var(--amber); }
+.dot.active { background: var(--paper); }
+
+/* NAV */
+nav {
+  background: var(--paper3);
+  border-bottom: 2px solid var(--ink);
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 48px;
+}
+nav::-webkit-scrollbar { display: none; }
+
+.nav-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 12px 16px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+  margin-bottom: -2px;
+}
+.nav-btn:hover { color: var(--text); }
+.nav-btn.active { color: var(--amber); border-bottom-color: var(--amber); font-weight: 500; }
+
+/* MAIN */
+main { max-width: 900px; margin: 0 auto; padding: 52px 48px 100px; }
+
+/* MODULES */
+.module { display: none; animation: fadein 0.35s ease; }
+.module.active { display: block; }
+@keyframes fadein { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+/* MODULE HEADER */
+.mod-header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.slo-tag {
+  background: var(--ink);
+  color: var(--amber-light);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  padding: 5px 9px;
+  border-radius: 2px;
+  white-space: nowrap;
+  margin-top: 8px;
+}
+
+.mod-title h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.mod-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--text-mid);
+  margin-top: 5px;
+}
+
+/* WHY CALLOUT */
+.why {
+  background: var(--amber-pale);
+  border-left: 4px solid var(--amber);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--text);
+  border-radius: 0 4px 4px 0;
+}
+.why strong { color: var(--amber); font-style: normal; }
+
+/* CONTENT CARD */
+.card {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.card-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-tag::after { content:''; flex:1; height:1px; background:var(--rule-light); }
+
+.card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+.card p { font-size: 0.9rem; color: var(--text); margin-bottom: 8px; line-height: 1.7; }
+.card p:last-child { margin-bottom: 0; }
+.card ul { padding-left: 18px; font-size:0.88rem; color:var(--text); display:flex; flex-direction:column; gap:5px; }
+
+/* CALC CARD */
+.calc {
+  background: var(--paper2);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+
+label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+input[type=text], input[type=number], select, input[type=range] {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9rem;
+  padding: 9px 11px;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+input:focus, select:focus { outline: none; border-color: var(--amber); }
+select option { background: #fff; }
+
+.btn {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  border-radius: 3px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 11px 22px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn:hover { background: var(--amber); }
+.btn.secondary {
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--text-mid);
+}
+.btn.secondary:hover { border-color: var(--amber); color: var(--amber); background: transparent; }
+
+/* RESULTS */
+.result {
+  background: var(--ink);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin-top: 16px;
+  display: none;
+}
+.result.show { display: block; }
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.res-item { display: flex; flex-direction: column; gap: 3px; }
+
+.res-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b6055;
+}
+
+.res-val {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--amber-light);
+}
+.res-val.pos { color: #5ab882; }
+.res-val.neg { color: #c0603a; }
+.res-val.neutral { color: var(--paper); }
+
+.res-note {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.66rem;
+  color: #6b6055;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #2a2520;
+}
+
+/* TABLE */
+.tbl-wrap { max-height: 300px; overflow-y: auto; border-radius: 3px; border: 1px solid var(--rule); margin-top: 14px; }
+.tbl-wrap::-webkit-scrollbar { width: 4px; }
+.tbl-wrap::-webkit-scrollbar-thumb { background: var(--rule); }
+
+table { width: 100%; border-collapse: collapse; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; }
+th { background: var(--ink); color: var(--amber-light); padding: 9px 12px; text-align: left; letter-spacing: 0.08em; text-transform: uppercase; position: sticky; top: 0; }
+td { padding: 7px 12px; border-bottom: 1px solid var(--rule-light); color: var(--text); }
+tr:hover td { background: var(--paper2); }
+.sum-row td { background: var(--paper3) !important; font-weight: 600; color: var(--ink); }
+
+/* CREDIT SCORE METER */
+.score-wrap { margin: 20px 0 10px; }
+.score-track {
+  height: 14px;
+  border-radius: 7px;
+  background: linear-gradient(to right, #8b2d1a 0%, #b8731a 30%, #d4891f 55%, #2d7a4f 75%, #1a5c3a 100%);
+  position: relative;
+  margin-bottom: 6px;
+}
+.score-needle {
+  position: absolute;
+  top: -5px;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 3px solid var(--paper);
+  transform: translateX(-50%);
+  transition: left 0.7s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.score-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--text-dim);
+}
+
+/* RISK SLIDER */
+.risk-display {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--amber);
+  text-align: center;
+  margin: 8px 0;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  height: 6px;
+  background: linear-gradient(to right, #2d7a4f, #b8731a, #8b2d1a);
+  border-radius: 3px;
+  padding: 0;
+  border: none;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 3px solid var(--amber);
+  cursor: pointer;
+}
+
+/* TOOL CHIPS */
+.tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 10px; margin-top: 12px; }
+.tool {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.tool-name { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; font-weight: 500; color: var(--ink); }
+.tool-desc { font-size: 0.72rem; color: var(--text-dim); }
+.tool-type { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-top: 4px; }
+
+/* PILLS */
+.pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.pill { padding: 4px 11px; border-radius: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; border: 1px solid var(--rule); color: var(--text-dim); }
+.pill.g { border-color: var(--green); color: var(--green); }
+.pill.r { border-color: var(--red); color: var(--red); }
+.pill.a { border-color: var(--amber); color: var(--amber); }
+
+/* COMPARE */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.cmp-card {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 16px;
+}
+.cmp-card.winner { border-color: var(--green); border-width: 2px; }
+.cmp-card h4 { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); margin-bottom: 10px; }
+.cmp-row { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--text-mid); margin-bottom: 5px; }
+.cmp-row span { color: var(--ink); font-weight: 500; }
+
+/* BUDGET BARS */
+.bbar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.bbar-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: var(--text-dim); width: 100px; flex-shrink: 0; }
+.bbar-track { flex:1; height:8px; background:var(--rule-light); border-radius:4px; overflow:hidden; }
+.bbar-fill { height:100%; border-radius:4px; background:var(--amber); transition:width 0.5s; }
+.bbar-fill.over { background: var(--red); }
+.bbar-val { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: var(--text-dim); width: 50px; text-align:right; flex-shrink:0; }
+
+/* BOTTOM NAV */
+.mod-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+
+/* PRIVATE NOTICE */
+.private-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--private);
+  margin-bottom: 16px;
+}
+.private-notice::before {
+  content: '🔒';
+  font-size: 10px;
+}
+
+@media (max-width:640px) {
+  header { padding: 20px 24px; flex-direction: column; align-items: flex-start; }
+  main { padding: 32px 24px 80px; }
+  nav { padding: 0 24px; }
+  .compare { grid-template-columns: 1fr; }
+  .mod-title h2 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="privacy-banner">🔒 All data you enter stays in your browser tab only — never sent, never stored, never shared</div>
+
+<header>
+  <div class="logo">
+    <h1>Personal Finance<br>Academy</h1>
+    <p>12 Modules · Your Data Stays Private</p>
+  </div>
+  <div class="progress-area">
+    <div class="progress-label">Modules visited</div>
+    <div class="progress-dots" id="dots"></div>
+  </div>
+</header>
+
+<nav id="nav"></nav>
+
+<main id="main"></main>
+
+<script>
+// ─── DATA LAYER (sessionStorage only) ───
+const S = {
+  get: k => { try { return JSON.parse(sessionStorage.getItem('pfa_'+k)); } catch(e) { return null; } },
+  set: (k,v) => sessionStorage.setItem('pfa_'+k, JSON.stringify(v)),
+};
+
+// ─── MODULE DEFINITIONS ───
+const MODS = [
+  { slo:'SLO-1', title:'What Drives Your Financial Decisions?', sub:'Naming the invisible forces that shape every choice you make with money', key:'m0' },
+  { slo:'SLO-2', title:'Building a Money Management Strategy', sub:'From chaos to a system that actually works for your life', key:'m1' },
+  { slo:'SLO-3', title:'Goal-Setting for Financial Freedom', sub:'Short-term discipline, long-term compound power', key:'m2' },
+  { slo:'SLO-4', title:'Choosing the Right Financial Institution', sub:'Banks, credit unions, and online accounts — what actually matters', key:'m3' },
+  { slo:'SLO-5', title:'Borrowing: Benefits, Risks & True Cost', sub:'Debt is a tool. Tools can build — or destroy.', key:'m4' },
+  { slo:'SLO-6', title:'Your Credit Score: Understanding & Improving It', sub:'The three-digit number that costs or saves you thousands', key:'m5' },
+  { slo:'SLO-7', title:'Risk Tolerance & Your Investment Personality', sub:'Know thyself before you invest a dollar', key:'m6' },
+  { slo:'SLO-8', title:'Choosing Investments Wisely', sub:'Safety, risk, income, growth, liquidity — the five axes', key:'m7' },
+  { slo:'SLO-9', title:'How Federal Income Tax Works', sub:'Calculate your taxable income and what you owe', key:'m8' },
+  { slo:'SLO-10', title:'Tax Strategies for Every Life Situation', sub:'Legal ways to keep more of what you earn', key:'m9' },
+  { slo:'SLO-11', title:'Loan Amortization & Budgeted Income', sub:'How every payment breaks down — and what that means for your plan', key:'m10' },
+  { slo:'SLO-12', title:'Comparing Mortgages', sub:'Choose the loan that serves your life, not the lender\'s profit', key:'m11' },
+];
+
+let currentMod = S.get('currentMod') || 0;
+const visited = S.get('visited') || {};
+
+// ─── NAV & DOTS ───
+function buildNav() {
+  const nav = document.getElementById('nav');
+  nav.innerHTML = MODS.map((m,i) =>
+    `<button class="nav-btn${i===currentMod?' active':''}" onclick="goTo(${i})">${m.slo}</button>`
+  ).join('');
+
+  const dots = document.getElementById('dots');
+  dots.innerHTML = MODS.map((m,i) =>
+    `<div class="dot${i===currentMod?' active':visited[i]?' done':''}"></div>`
+  ).join('');
+}
+
+function goTo(i) {
+  currentMod = i;
+  visited[i] = true;
+  S.set('currentMod', i);
+  S.set('visited', visited);
+  document.querySelectorAll('.module').forEach((m,j) => m.classList.toggle('active', j===i));
+  buildNav();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── HELPERS ───
+const fmt = (n, dec=2) => Number(n).toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+const fmtD = n => '$' + fmt(n);
+const pct = n => fmt(n,1) + '%';
+
+function modHeader(i) {
+  const m = MODS[i];
+  return `
+    <div class="mod-header">
+      <div class="slo-tag">${m.slo}</div>
+      <div class="mod-title">
+        <h2>${m.title}</h2>
+        <div class="mod-subtitle">${m.sub}</div>
+      </div>
+    </div>`;
+}
+
+function modNav(i) {
+  const prev = i > 0 ? `<button class="btn secondary" onclick="goTo(${i-1})">← Previous</button>` : '<span></span>';
+  const next = i < 11 ? `<button class="btn" onclick="goTo(${i+1})">Next Module →</button>` : '<button class="btn" onclick="goTo(0)">↩ Start Over</button>';
+  return `<div class="mod-nav">${prev}${next}</div>`;
+}
+
+function tools(...items) {
+  return `<div class="tools">${items.map(t =>
+    `<div class="tool"><div class="tool-name">${t[0]}</div><div class="tool-desc">${t[1]}</div><div class="tool-type">${t[2]}</div></div>`
+  ).join('')}</div>`;
+}
+
+// ─── MODULE CONTENT ───
+function buildModules() {
+  const main = document.getElementById('main');
+
+  const modules = [
+
+// ── MOD 0: Financial Decisions ──
+`<div class="module${0===currentMod?' active':''}" id="mod0">
+  ${modHeader(0)}
+  <div class="why"><strong>Why this matters:</strong> Every dollar you spend or save is the output of forces mostly invisible to you — your upbringing, your fears, the culture around you. Naming them is the first act of financial sovereignty.</div>
+
+  <div class="card">
+    <div class="card-tag">The Six Forces</div>
+    <p><strong>Income & Wealth</strong> — What you have determines what options exist. But lifestyle inflation means income alone won't save you.</p>
+    <p><strong>Life Stage</strong> — A 22-year-old student and a 55-year-old approaching retirement should have completely different strategies, even on the same income.</p>
+    <p><strong>Values & Priorities</strong> — Whether you value security, freedom, legacy, or experience — this unconsciously drives every decision.</p>
+    <p><strong>Economic Environment</strong> — Interest rates, inflation, and job markets set the context you operate in.</p>
+    <p><strong>Psychological Biases</strong> — Loss aversion (you feel losses 2× harder than gains), anchoring (first number you hear sticks), and present bias (overvaluing today vs. tomorrow) distort decisions constantly.</p>
+    <p><strong>Social Pressure</strong> — Lifestyle inflation driven by peer comparison is the silent killer of wealth-building.</p>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">Self-Audit: What's Driving My Decisions?</div>
+    <p style="font-size:0.82rem;color:var(--text-mid);margin-bottom:16px;">Check every statement that honestly applies to you. Your results stay private.</p>
+    <div class="private-notice">Private to this tab only</div>
+    <div id="auditList" style="display:flex;flex-direction:column;gap:8px;"></div>
+    <div style="margin-top:18px;"></div>
+    <button class="btn" onclick="calcAudit()">Analyze My Drivers</button>
+    <div class="result" id="auditResult">
+      <div class="result-grid">
+        <div class="res-item"><div class="res-label">Dominant Driver</div><div class="res-val neutral" id="ar_driver">—</div></div>
+        <div class="res-item"><div class="res-label">Risk Pattern</div><div class="res-val neutral" id="ar_risk">—</div></div>
+        <div class="res-item"><div class="res-label">Watch Out For</div><div class="res-val neutral" id="ar_watch">—</div></div>
+      </div>
+      <div class="res-note" id="ar_note">—</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-tag">Best Tools</div>
+    ${tools(
+      ['You Need A Budget', 'Forces you to assign every dollar a purpose — kills unconscious spending', 'App · $14/mo'],
+      ['Mint / Credit Karma', 'Free snapshot of where money goes — good for awareness', 'Free · Web & App'],
+      ['Monarch Money', 'Best overall money dashboard for serious planners', 'App · $9/mo'],
+    )}
+  </div>
+  ${modNav(0)}
+</div>`,
+
+// ── MOD 1: Money Management Strategy ──
+`<div class="module${1===currentMod?' active':''}" id="mod1">
+  ${modHeader(1)}
+  <div class="why"><strong>Why this matters:</strong> A strategy isn't a budget spreadsheet. It's a philosophy — a coherent answer to the question: "What is money for in my life?" Without it, every financial decision is improvised.</div>
+
+  <div class="card">
+    <div class="card-tag">The Three Frameworks</div>
+    <p><strong>50/30/20 Rule</strong> — 50% needs, 30% wants, 20% savings/debt repayment. Simple. Good starting point.</p>
+    <p><strong>Pay Yourself First</strong> — Automate savings the day you're paid. Spend whatever's left. Flips the default psychology.</p>
+    <p><strong>Zero-Based Budgeting</strong> — Every dollar has a job. Income minus all allocations = $0. Maximum intentionality.</p>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">50/30/20 Calculator</div>
+    <div class="private-notice">Private to this tab only</div>
+    <div class="input-grid">
+      <div class="field"><label>Monthly Take-Home Pay ($)</label><input type="number" id="m1_income" placeholder="e.g. 3500" min="0"></div>
+    </div>
+    <button class="btn" onclick="calc5030()">Calculate Split</button>
+    <div class="result" id="m1_result">
+      <div class="result-grid">
+        <div class="res-item"><div class="res-label">Needs (50%)</div><div class="res-val" id="m1_needs"></div></div>
+        <div class="res-item"><div class="res-label">Wants (30%)</div><div class="res-val" id="m1_wants"></div></div>
+        <div class="res-item"><div class="res-label">Savings/Debt (20%)</div><div class="res-val pos" id="m1_save"></div></div>
+      </div>
+      <div class="res-note">This is a guideline, not a law. Adjust percentages to your life stage and goals.</div>
+      <div id="m1_bars" style="margin-top:14px;"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-tag">Best Tools</div>
+    ${tools(
+      ['YNAB', 'Zero-based budgeting with real philosophy behind it', 'App · Best for commitment'],
+      ['EveryDollar', 'Dave Ramsey\'s zero-based app — simpler YNAB', 'Free / $17mo'],
+      ['Copilot', 'AI-powered budget tracking, beautiful iOS app', 'iOS · $13/mo'],
+    )}
+  </div>
+  ${modNav(1)}
+</div>`,
+
+// ── MOD 2: Goals ──
+`<div class="module${2===currentMod?' active':''}" id="mod2">
+  ${modHeader(2)}
+  <div class="why"><strong>Why this matters:</strong> Without a specific goal with a dollar amount and a date, saving is wishful thinking. The compound interest calculator below will show you how time is your most powerful financial asset — or your greatest enemy.</div>
+
+  <div class="card">
+    <div class="card-tag">Goal Types</div>
+    <p><strong>Short-term (0–1 yr):</strong> Emergency fund (3–6 months expenses), vacation, car repair buffer.</p>
+    <p><strong>Mid-term (1–5 yr):</strong> Down payment, debt payoff, education fund.</p>
+    <p><strong>Long-term (5+ yr):</strong> Retirement, investment portfolio, financial independence.</p>
+    <p>The key: make each goal <strong>Specific, Measurable, Time-bound</strong>. "Save money" fails. "Save $10,000 by Dec 2026 for a down payment" works.</p>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">Compound Growth Calculator</div>
+    <div class="private-notice">Private to this tab only</div>
+    <div class="input-grid">
+      <div class="field"><label>Starting Amount ($)</label><input type="number" id="m2_principal" placeholder="1000" min="0"></div>
+      <div class="field"><label>Monthly Contribution ($)</label><input type="number" id="m2_monthly" placeholder="200" min="0"></div>
+      <div class="field"><label>Annual Interest Rate (%)</label><input type="number" id="m2_rate" placeholder="7" min="0" max="30"></div>
+      <div class="field"><label>Years</label><input type="number" id="m2_years" placeholder="10" min="1" max="50"></div>
+    </div>
+    <button class="btn" onclick="calcCompound()">Calculate Growth</button>
+    <div class="result" id="m2_result">
+      <div class="result-grid">
+        <div class="res-item"><div class="res-label">Future Value</div><div class="res-val pos" id="m2_fv"></div></div>
+        <div class="res-item"><div class="res-label">Total Contributed</div><div class="res-val" id="m2_contrib"></div></div>
+        <div class="res-item"><div class="res-label">Interest Earned</div><div class="res-val pos" id="m2_interest"></div></div>
+        <div class="res-item"><div class="res-label">Growth Multiplier</div><div class="res-val" id="m2_mult"></div></div>
+      </div>
+      <div class="res-note" id="m2_note"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-tag">Best Tools</div>
+    ${tools(
+      ['Empower (Personal Capital)', 'Net worth tracking + retirement planner — best free tool', 'Free · Web'],
+      ['Betterment', 'Goal-based investing with automatic rebalancing', 'Robo-advisor · 0.25%/yr'],
+      ['Acorns', 'Rounds up spare change — painless habit-building', 'App · $3/mo'],
+    )}
+  </div>
+  ${modNav(2)}
+</div>`,
+
+// ── MOD 3: Banking ──
+`<div class="module${3===currentMod?' active':''}" id="mod3">
+  ${modHeader(3)}
+  <div class="why"><strong>Why this matters:</strong> The wrong bank costs you money in fees and low interest. The right bank works silently in your favor. This is a decision most people make once and never revisit.</div>
+
+  <div class="card">
+    <div class="card-tag">What to Look For</div>
+    <ul>
+      <li><strong>APY on savings</strong> — National average is ~0.5%. High-yield savings accounts offer 4–5%+. The gap on $10,000 is $450/yr.</li>
+      <li><strong>Monthly fees</strong> — Any fee you can't waive is a bad deal. Many online banks charge $0.</li>
+      <li><strong>ATM network</strong> — Out-of-network ATM fees add up fast. Look for fee reimbursement.</li>
+      <li><strong>FDIC/NCUA insurance</strong> — Non-negotiable. Protects up to $250,000 per depositor.</li>
+      <li><strong>Mobile & digital features</strong> — Check deposit, Zelle, instant transfer — table stakes now.</li>
+      <li><strong>Credit union vs. bank</strong> — Credit unions are member-owned, often lower fees and better rates. Banks have more branches and tech.</li>
+    </ul>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">Savings Account Comparison</div>
+    <div class="private-notice">Private to this tab only</div>
+    <div class="input-grid">
+      <div class="field"><label>Savings Balance ($)</label><input type="number" id="m3_bal" placeholder="5000" min="0"></div>
+      <div class="field"><label>Current APY (%)</label><input type="number" id="m3_cur" placeholder="0.5" step="0.01" min="0"></div>
+      <div class="field"><label>High-Yield APY (%)</label><input type="number" id="m3_hysa" placeholder="4.5" step="0.01" min="0"></div>
+    </div>
+    <button class="btn" onclick="calcBank()">Show the Difference</button>
+    <div class="result" id="m3_result">
+      <div class="result-grid">
+        <div class="res-item"><div class="res-label">Current Annual Interest</div><div class="res-val" id="m3_cur_earn"></div></div>
+        <div class="res-item"><div class="res-label">High-Yield Interest</div><div class="res-val pos" id="m3_hy_earn"></div></div>
+        <div class="res-item"><div class="res-label">Annual Gain</div><div class="res-val pos" id="m3_diff"></div></div>
+        <div class="res-item"><div class="res-label">5-Year Opportunity Cost</div><div class="res-val neg" id="m3_5yr"></div></div>
+      </div>
+      <div class="res-note">The 5-year figure is simple interest only — compounding makes the difference even larger.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-tag">Top Picks by Category</div>
+    ${tools(
+      ['SoFi', 'Best all-in-one: HYSA + checking + no fees + sign-up bonus', 'Online Bank · 4.5% APY'],
+      ['Marcus by Goldman', 'Best standalone HYSA — simple, reliable, no fees', 'HYSA · 4.4% APY'],
+      ['Ally Bank', 'Beloved online bank — great UX, solid rates, 24/7 support', 'Online Bank'],
+      ['Navy Federal / DCU', 'Best credit unions for low rates on loans', 'Credit Union'],
+    )}
+  </div>
+  ${modNav(3)}
+</div>`,
+
+// ── MOD 4: Borrowing ──
+`<div class="module${4===currentMod?' active':''}" id="mod4">
+  ${modHeader(4)}
+  <div class="why"><strong>Why this matters:</strong> Used wisely, debt accelerates life — education, a home, a business. Used carelessly, it steals your future income before you earn it. The True Cost calculator below shows what you actually pay.</div>
+
+  <div class="card">
+    <div class="card-tag">Types of Debt</div>
+    <p><strong>Good debt</strong> (generally): mortgages, student loans for high-ROI careers, business loans with positive ROI. Asset-building or income-producing.</p>
+    <p><strong>Neutral debt</strong>: auto loans — depreciating asset but often necessary. Keep terms short.</p>
+    <p><strong>Costly debt</strong>: credit cards at 20%+, payday loans (400%+ APR), buy-now-pay-later misused.</p>
+    <p><strong>Key factors lenders assess:</strong> credit score, debt-to-income ratio (DTI), collateral, loan purpose, and loan term.</p>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">True Cost of a Loan Calculator</div>
+    <div class="private-notice">Private to this tab only</div>
+    <div class="input-grid">
+      <div class="field"><label>Loan Amount ($)</label><input type="number" id="m4_amt" placeholder="10000" min="0"></div>
+      <div class="field"><label>Annual Interest Rate (%)</label><input type="number" id="m4_rate" placeholder="7.5" step="0.01" min="0"></div>
+      <div class="field"><label>Loan Term (months)</label><input type="number" id="m4_term" placeholder="48" min="1"></div>
+    </div>
+    <button class="btn" onclick="calcLoanCost()">Calculate True Cost</button>
+    <div class="result" id="m4_result">
+      <div class="result-grid">
+        <div class="res-item"><div class="res-label">Monthly Payment</div><div class="res-val" id="m4_pmt"></div></div>
+        <div class="res-item"><div class="res-label">Total Paid</div><div class="res-val" id="m4_total"></div></div>
+        <div class="res-item"><div class="res-label">Total Interest</div><div class="res-val neg" id="m4_int"></div></div>
+        <div class="res-item"><div class="res-label">Interest as % of Principal</div><div class="res-val neg" id="m4_pct"></div></div>
+      </div>
+      <div class="res-note" id="m4_note"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-tag">Best Tools</div>
+    ${tools(
+      ['NerdWallet Loan Comparison', 'Compare personal loan offers side by side — real rates', 'Free · Web'],
+      ['Credible', 'Pre-qualify with multiple lenders without hurting credit', 'Free · Web'],
+      ['Undebt.it', 'Debt payoff snowball/avalanche planner', 'Free · Web'],
+    )}
+  </div>
+  ${modNav(4)}
+</div>`,
+
+// ── MOD 5: Credit Score ──
+`<div class="module${5===currentMod?' active':''}" id="mod5">
+  ${modHeader(5)}
+  <div class="why"><strong>Why this matters:</strong> A 100-point difference in your credit score can mean $50,000+ in extra interest over a lifetime of loans. This number is not fixed — it's fully within your control.</div>
+
+  <div class="card">
+    <div class="card-tag">How FICO Scores Work</div>
+    <p><strong>Payment History (35%)</strong> — The most important factor. One 30-day late payment can drop your score 60–110 points.</p>
+    <p><strong>Amounts Owed / Utilization (30%)</strong> — Keep credit card balances below 30% of limit ideally; below 10% is excellent.</p>
+    <p><strong>Length of Credit History (15%)</strong> — Older accounts help. Don't close your oldest card.</p>
+    <p><strong>New Credit (10%)</strong> — Hard inquiries ding your score slightly. Space out applications.</p>
+    <p><strong>Credit Mix (10%)</strong> — Having both revolving (cards) and installment (loans) helps.</p>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">Score Estimator & Action Plan</div>
+    <div class="private-notice">Private to this tab only</div>
+    <div class="input-grid">
+      <div class="field"><label>Current Credit Score (300–850)</label><input type="number" id="m5_score" placeholder="680" min="300" max="850" oninput="updateMeter()"></div>
+      <div class="field"><label>Credit Utilization (%)</label><input type="number" id="m5_util" placeholder="35" min="0" max="100"></div>
+      <div class="field"><label>Missed Payments (last 2 yrs)</label><input type="number" id="m5_miss" placeholder="0" min="0"></div>
+      <div class="field"><label>Oldest Account Age (yrs)</label><input type="number" id="m5_age" placeholder="4" min="0"></div>
+    </div>
+
+    <div class="score-wrap">
+      <div class="score-track"><div class="score-needle" id="scoreNeedle" style="left:0%"></div></div>
+      <div class="score-labels"><span>300 Poor</span><span>580 Fair</span><span>670 Good</span><span>740 Very Good</span><span>850 Exceptional</span></div>
+    </div>
+
+    <button class="btn" onclick="calcCredit()" style="margin-top:14px;">Get My Action Plan</button>
+    <div class="result" id="m5_result">
+      <div class="result-grid">
+        <div class="res-item"><div class="res-label">Score Range</div><div class="res-val neutral" id="m5_range"></div></div>
+        <div class="res-item"><div class="res-label">Est. Mortgage Rate</div><div class="res-val" id="m5_mrate"></div></div>
+        <div class="res-item"><div class="res-label">Priority Action</div><div class="res-val neutral" id="m5_action"></div></div>
+      </div>
+      <div class="res-note" id="m5_note"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-tag">Best Tools</div>
+    ${tools(
+      ['Credit Karma', 'Free TransUnion & Equifax scores — updated weekly', 'Free · App & Web'],
+      ['Experian App', 'Free FICO score + Experian Boost to add utility payments', 'Free · App'],
+      ['myFICO', 'Official FICO scores from all 3 bureaus — paid but gold standard', 'Paid · $30/mo'],
+    )}
+  </div>
+  ${modNav(5)}
+</div>`,
+
+// ── MOD 6: Risk Tolerance ──
+`<div class="module${6===currentMod?' active':''}" id="mod6">
+  ${modHeader(6)}
+  <div class="why"><strong>Why this matters:</strong> The investor who panics in a downturn and sells locks in losses permanently. Your risk tolerance determines which investment strategy you'll actually stick with — and sticking with it is everything.</div>
+
+  <div class="card">
+    <div class="card-tag">The Three Dimensions of Risk Tolerance</div>
+    <p><strong>Capacity</strong> — How much risk can your financial situation objectively absorb? (emergency fund, job stability, time horizon)</p>
+    <p><strong>Willingness</strong> — How much volatility can you psychologically handle without panic-selling?</p>
+    <p><strong>Need</strong> — How much return do you actually need to meet your goals? A retiree may not need to take stock market risk at all.</p>
+    <p>Conflicts between these three dimensions are where most investing mistakes happen.</p>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">Risk Profile Assessment</div>
+    <div class="private-notice">Private to this tab only</div>
+    <div class="input-grid">
+      <div class="field"><label>Time Horizon (years to need money)</label><input type="number" id="m6_time" placeholder="20" min="0" max="50"></div>
+      <div class="field"><label>Emergency Fund Months Saved</label><input type="number" id="m6_ef" placeholder="3" min="0" max="24"></div>
+      <div class="field"><label>Job Security (1=shaky, 5=ironclad)</label><input type="number" id="m6_job" placeholder="3" min="1" max="5"></div>
+    </div>
+
+    <label>If your portfolio dropped 30% in one year, you would:</label>
+    <select id="m6_react" style="margin-top:6px;margin-bottom:16px;max-width:420px;">
+      <option value="1">Sell everything immediately</option>
+      <option value="2">Sell some to reduce exposure</option>
+      <option value="3" selected>Hold and wait it out</option>
+      <option value="4">Buy a little more at the lower price</option>
+      <option value="5">Aggressively buy more — this is opportunity</option>
+    </select>
+
+    <br>
+    <label>Gut feeling about investing: how comfortable are you overall?</label>
+    <input type="range" id="m6_gut" min="1" max="10" value="5" oninput="document.getElementById('m6_gut_val').textContent=this.value" style="margin-top:8px;width:100%;max-width:400px;">
+    <div class="risk-display" id="m6_gut_val">5</div>
+
+    <button class="btn" onclick="calcRisk()">Determine My Profile</button>
+    <div class="result" id="m6_result">
+      <div class="result-grid">
+        <div class="res-item"><div class="res-label">Risk Profile</div><div class="res-val neutral" id="m6_profile"></div></div>
+        <div class="res-item"><div class="res-label">Suggested Stock %</div><div class="res-val" id="m6_stocks"></div></div>
+        <div class="res-item"><div class="res-label">Suggested Bond %</div><div class="res-val" id="m6_bonds"></div></div>
+      </div>
+      <div class="res-note" id="m6_note"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-tag">Best Tools</div>
+    ${tools(
+      ['Vanguard Risk Quiz', 'Industry-standard risk assessment from America\'s most trusted fund company', 'Free · Web'],
+      ['Betterment', 'Sets your allocation automatically based on risk + goals', 'Robo-advisor'],
+      ['Portfolio Visualizer', 'Back-test any portfolio allocation against history', 'Free · Web (advanced)'],
+    )}
+  </div>
+  ${modNav(6)}
+</div>`,
+
+// ── MOD 7: Investments ──
+`<div class="module${7===currentMod?' active':''}" id="mod7">
+  ${modHeader(7)}
+  <div class="why"><strong>Why this matters:</strong> Most people confuse investing with speculation. Real investing is disciplined allocation of capital to assets that match your goals, timeline, and risk profile — not chasing yesterday's winner.</div>
+
+  <div class="card">
+    <div class="card-tag">The Five Axes of Every Investment</div>
+    <p><strong>Safety</strong> — Can you lose your principal? (FDIC savings = no; individual stocks = yes)</p>
+    <p><strong>Risk</strong> — Volatility and uncertainty of return. Higher expected return always comes with higher risk — this is a law.</p>
+    <p><strong>Income</strong> — Does it pay you regularly? (dividends, bond coupons, rental income)</p>
+    <p><strong>Growth</strong> — Does it appreciate in value over time? (growth stocks, real estate, index funds)</p>
+    <p><strong>Liquidity</strong> — How fast can you get your money back? (savings account = instant; real estate = months)</p>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">Investment Comparison Tool</div>
+    <p style="font-size:0.82rem;color:var(--text-mid);margin-bottom:14px;">Rate each asset class on the 5 axes (1=low, 5=high). See how different assets compare.</p>
+    <div class="input-grid">
+      <div class="field"><label>Investment Amount ($)</label><input type="number" id="m7_amt" placeholder="10000" min="0"></div>
+      <div class="field"><label>Asset Type</label>
+        <select id="m7_type">
+          <option value="savings">High-Yield Savings</option>
+          <option value="bonds">US Treasury Bonds</option>
+          <option value="index">S&P 500 Index Fund</option>
+          <option value="growth">Growth Stocks</option>
+          <option value="reit">Real Estate (REIT)</option>
+          <option value="crypto">Cryptocurrency</option>
+        </select>
+      </div>
+      <div class="field"><label>Years Held</label><input type="number" id="m7_yrs" placeholder="10" min="1"></div>
+    </div>
+    <button class="btn" onclick="calcInvest()">Analyze This Investment</button>
+    <div class="result" id="m7_result">
+      <div class="result-grid">
+        <div class="res-item"><div class="res-label">Safety</div><div class="res-val" id="m7_safe"></div></div>
+        <div class="res-item"><div class="res-label">Risk Level</div><div class="res-val" id="m7_risk"></div></div>
+        <div class="res-item"><div class="res-label">Typical Annual Return</div><div class="res-val pos" id="m7_ret"></div></div>
+        <div class="res-item"><div class="res-label">Liquidity</div><div class="res-val" id="m7_liq"></div></div>
+      </div>
+      <div class="result-grid" style="margin-top:10px;">
+        <div class="res-item"><div class="res-label">Projected Value</div><div class="res-val pos" id="m7_proj"></div></div>
+        <div class="res-item"><div class="res-label">Best For</div><div class="res-val neutral" id="m7_best"></div></div>
+      </div>
+      <div class="res-note" id="m7_note"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-tag">Best Tools</div>
+    ${tools(
+      ['Fidelity', 'Best brokerage for beginners: $0 trades, $0 minimums, excellent education', 'Brokerage · Free'],
+      ['Vanguard', 'Home of index fund investing — best for long-term buy-and-hold', 'Brokerage · Low fees'],
+      ['M1 Finance', 'Build a "pie" portfolio — automatic rebalancing, free', 'App · Free'],
+      ['Morningstar', 'Deep fund research and ratings — serious investor tool', 'Research · Free/Paid'],
+    )}
+  </div>
+  ${modNav(7)}
+</div>`,
+
+// ── MOD 8: Taxes ──
+`<div class="module${8===currentMod?' active':''}" id="mod8">
+  ${modHeader(8)}
+  <div class="why"><strong>Why this matters:</strong> Most Americans overpay their taxes or underpay and get hit with penalties — both because they don't understand how the system actually works. The US tax system is progressive: you are NOT taxed at one rate on everything.</div>
+
+  <div class="card">
+    <div class="card-tag">How Federal Income Tax Actually Works</div>
+    <p><strong>Gross Income</strong> → subtract <strong>Adjustments</strong> (student loan interest, IRA contributions) = <strong>AGI</strong></p>
+    <p><strong>AGI</strong> → subtract <strong>Standard or Itemized Deduction</strong> = <strong>Taxable Income</strong></p>
+    <p><strong>Taxable Income</strong> → apply <strong>Tax Brackets</strong> = <strong>Tax Owed</strong> → subtract <strong>Credits</strong> = <strong>Final Bill</strong></p>
+    <p style="margin-top:8px;font-style:italic;font-size:0.85rem;">2024 Standard Deduction: $14,600 single / $29,200 married filing jointly</p>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">2024 Federal Tax Estimator</div>
+    <div class="private-notice">Private to this tab only</div>
+    <div class="input-grid">
+      <div class="field"><label>Gross Annual Income ($)</label><input type="number" id="m8_gross" placeholder="60000" min="0"></div>
+      <div class="field"><label>Filing Status</label>
+        <select id="m8_status">
+          <option value="single">Single</option>
+          <option value="mfj">Married Filing Jointly</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+      <div class="field"><label>Pre-Tax Deductions ($) e.g. 401k</label><input type="number" id="m8_pretax" placeholder="0" min="0"></div>
+      <div class="field"><label>Other Deductions above standard ($)</label><input type="number" id="m8_itemize" placeholder="0" min="0"></div>
+    </div>
+    <button class="btn" onclick="calcTax()">Estimate My Tax</button>
+    <div class="result" id="m8_result">
+      <div class="result-grid">
+        <div class="res-item"><div class="res-label">Taxable Income</div><div class="res-val" id="m8_taxable"></div></div>
+        <div class="res-item"><div class="res-label">Federal Tax Owed</div><div class="res-val neg" id="m8_owed"></div></div>
+        <div class="res-item"><div class="res-label">Effective Tax Rate</div><div class="res-val" id="m8_eff"></div></div>
+        <div class="res-item"><div class="res-label">Marginal Bracket</div><div class="res-val" id="m8_bracket"></div></div>
+      </div>
+      <div class="res-note" id="m8_note">Your effective rate is almost always lower than your bracket rate — that's how progressive taxation works.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-tag">Best Tools</div>
+    ${tools(
+      ['TurboTax', 'Best guided filing experience — catches deductions automatically', 'Paid · $0–$120'],
+      ['FreeTaxUSA', 'Excellent free federal filing — underrated', 'Free federal / $15 state'],
+      ['IRS Free File', 'Free for income under $79,000 — direct from the IRS', 'Free · IRS.gov'],
+    )}
+  </div>
+  ${modNav(8)}
+</div>`,
+
+// ── MOD 9: Tax Strategy ──
+`<div class="module${9===currentMod?' active':''}" id="mod9">
+  ${modHeader(9)}
+  <div class="why"><strong>Why this matters:</strong> Tax strategy is legal tax reduction. The IRS builds incentives into the code to encourage certain behaviors — retirement saving, homeownership, education, business formation. Ignoring them is leaving real money on the table.</div>
+
+  <div class="card">
+    <div class="card-tag">Core Strategies by Life Situation</div>
+    <p><strong>Employed W-2 worker:</strong> Maximize 401(k) pre-tax contributions (reduces taxable income dollar-for-dollar). Contribute to HSA if eligible ($4,150/yr single 2024). Take Saver's Credit if income qualifies.</p>
+    <p><strong>Self-employed / freelancer:</strong> Deduct home office, vehicle (mileage method), health insurance premiums, business expenses. Contribute to SEP-IRA (up to 25% of net earnings).</p>
+    <p><strong>Investor:</strong> Hold assets >1 year for long-term capital gains rates (0%, 15%, 20% vs. ordinary income rates). Tax-loss harvesting — sell losers to offset winners.</p>
+    <p><strong>Homeowner:</strong> Mortgage interest deduction (if itemizing). Property tax deduction. Capital gains exclusion on home sale ($250k single / $500k married).</p>
+    <p><strong>Parent / student:</strong> Child Tax Credit ($2,000/child). American Opportunity Credit ($2,500). 529 plan contributions — state deductions vary.</p>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">Retirement Contribution Tax Savings Calculator</div>
+    <div class="private-notice">Private to this tab only</div>
+    <div class="input-grid">
+      <div class="field"><label>Annual Income ($)</label><input type="number" id="m9_inc" placeholder="70000" min="0"></div>
+      <div class="field"><label>401k / IRA Contribution ($)</label><input type="number" id="m9_contrib" placeholder="6000" min="0"></div>
+      <div class="field"><label>Filing Status</label>
+        <select id="m9_status">
+          <option value="single">Single</option>
+          <option value="mfj">Married Filing Jointly</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="calcRetireTax()">Calculate Tax Savings</button>
+    <div class="result" id="m9_result">
+      <div class="result-grid">
+        <div class="res-item"><div class="res-label">Tax Without Contribution</div><div class="res-val neg" id="m9_before"></div></div>
+        <div class="res-item"><div class="res-label">Tax With Contribution</div><div class="res-val" id="m9_after"></div></div>
+        <div class="res-item"><div class="res-label">Immediate Tax Savings</div><div class="res-val pos" id="m9_save"></div></div>
+        <div class="res-item"><div class="res-label">Your Actual Net Cost</div><div class="res-val" id="m9_net"></div></div>
+      </div>
+      <div class="res-note" id="m9_note"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-tag">Best Tools</div>
+    ${tools(
+      ['Taxcaster (TurboTax)', 'Free tax scenario planner — test strategies before filing', 'Free · Web'],
+      ['SmartAsset Tax Calculator', 'Federal + state tax breakdown by income', 'Free · Web'],
+      ['Boldin (NewRetirement)', 'Advanced retirement + tax planning for serious planners', 'Paid · $120/yr'],
+    )}
+  </div>
+  ${modNav(9)}
+</div>`,
+
+// ── MOD 10: Loan Amortization ──
+`<div class="module${10===currentMod?' active':''}" id="mod10">
+  ${modHeader(10)}
+  <div class="why"><strong>Why this matters:</strong> In the early years of any loan, you pay almost entirely interest — barely touching principal. Understanding amortization reveals why paying even $50/month extra can shave years off a loan and save thousands.</div>
+
+  <div class="card">
+    <div class="card-tag">What Amortization Means</div>
+    <p>Every fixed loan payment covers two things: <strong>interest</strong> (what the bank charges for the loan) and <strong>principal</strong> (actual debt reduction). At the start, interest dominates. Over time, as principal decreases, the interest portion shrinks and principal grows.</p>
+    <p>This is why paying extra early has an outsized impact — you're reducing the base on which future interest is calculated.</p>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">Amortization Schedule Builder</div>
+    <div class="private-notice">Private to this tab only</div>
+    <div class="input-grid">
+      <div class="field"><label>Loan Amount ($)</label><input type="number" id="m10_amt" placeholder="20000" min="0"></div>
+      <div class="field"><label>Annual Rate (%)</label><input type="number" id="m10_rate" placeholder="6.5" step="0.01" min="0"></div>
+      <div class="field"><label>Term (months)</label><input type="number" id="m10_term" placeholder="60" min="1"></div>
+      <div class="field"><label>Extra Monthly Payment ($)</label><input type="number" id="m10_extra" placeholder="0" min="0"></div>
+    </div>
+    <button class="btn" onclick="calcAmort()">Build Schedule</button>
+    <div class="result" id="m10_result">
+      <div class="result-grid">
+        <div class="res-item"><div class="res-label">Monthly Payment</div><div class="res-val" id="m10_pmt"></div></div>
+        <div class="res-item"><div class="res-label">Total Interest</div><div class="res-val neg" id="m10_totint"></div></div>
+        <div class="res-item"><div class="res-label">Payoff Month</div><div class="res-val pos" id="m10_payoff"></div></div>
+        <div class="res-item"><div class="res-label">Interest Saved (extra pmts)</div><div class="res-val pos" id="m10_saved"></div></div>
+      </div>
+      <div class="tbl-wrap" id="m10_tbl"></div>
+    </div>
+  </div>
+  ${modNav(10)}
+</div>`,
+
+// ── MOD 11: Mortgage ──
+`<div class="module${11===currentMod?' active':''}" id="mod11">
+  ${modHeader(11)}
+  <div class="why"><strong>Why this matters:</strong> A mortgage is likely the largest financial commitment of your life. A half-percent difference in your rate can mean $30,000+ over 30 years. This module gives you the tools to compare and choose intelligently.</div>
+
+  <div class="card">
+    <div class="card-tag">Key Mortgage Factors</div>
+    <p><strong>Fixed vs. Adjustable Rate (ARM)</strong> — Fixed: certainty forever. ARM: lower initial rate, but resets — dangerous if rates rise.</p>
+    <p><strong>15 vs. 30 Year</strong> — 15yr: much less total interest, higher monthly payment. 30yr: more flexibility, far more total interest paid.</p>
+    <p><strong>Down Payment</strong> — Below 20%, you pay PMI (private mortgage insurance), typically 0.5–1.5%/yr of loan value. Hit 20% equity to eliminate it.</p>
+    <p><strong>Points</strong> — Paying "points" upfront buys down your rate. 1 point = 1% of loan = ~0.25% rate reduction. Calculate your break-even period.</p>
+    <p><strong>APR vs. Interest Rate</strong> — APR includes fees and is the true cost comparison metric.</p>
+  </div>
+
+  <div class="calc">
+    <div class="card-tag">Mortgage Comparison Tool</div>
+    <div class="private-notice">Private to this tab only</div>
+    <p style="font-size:0.82rem;color:var(--text-mid);margin-bottom:14px;">Compare two loan options side by side</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;">Option A</div>
+        <div class="field" style="margin-bottom:10px;"><label>Home Price ($)</label><input type="number" id="m11_priceA" placeholder="350000" min="0"></div>
+        <div class="field" style="margin-bottom:10px;"><label>Down Payment ($)</label><input type="number" id="m11_downA" placeholder="70000" min="0"></div>
+        <div class="field" style="margin-bottom:10px;"><label>Interest Rate (%)</label><input type="number" id="m11_rateA" placeholder="6.5" step="0.01" min="0"></div>
+        <div class="field"><label>Term (years)</label><input type="number" id="m11_termA" placeholder="30" min="1"></div>
+      </div>
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;">Option B</div>
+        <div class="field" style="margin-bottom:10px;"><label>Home Price ($)</label><input type="number" id="m11_priceB" placeholder="350000" min="0"></div>
+        <div class="field" style="margin-bottom:10px;"><label>Down Payment ($)</label><input type="number" id="m11_downB" placeholder="70000" min="0"></div>
+        <div class="field" style="margin-bottom:10px;"><label>Interest Rate (%)</label><input type="number" id="m11_rateB" placeholder="6.0" step="0.01" min="0"></div>
+        <div class="field"><label>Term (years)</label><input type="number" id="m11_termB" placeholder="15" min="1"></div>
+      </div>
+    </div>
+    <div style="margin-top:16px;"></div>
+    <button class="btn" onclick="calcMortgage()">Compare Mortgages</button>
+    <div class="result" id="m11_result">
+      <div class="compare" id="m11_compare"></div>
+      <div class="res-note" id="m11_note"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-tag">Best Tools</div>
+    ${tools(
+      ['Bankrate Mortgage Calculator', 'Best free mortgage calculator with full amortization table', 'Free · Web'],
+      ['Zillow Mortgage', 'Combines home search with real-time rate quotes', 'Free · App & Web'],
+      ['Credible Mortgage', 'Compare real rates from multiple lenders in minutes', 'Free · Web'],
+      ['Consumer Financial Protection Bureau', 'Know your rights before signing anything', 'Free · CFPB.gov'],
+    )}
+  </div>
+  ${modNav(11)}
+</div>`,
+
+  ];
+
+  main.innerHTML = modules.join('');
+  buildAudit();
+  if (S.get('currentMod') !== null) updateMeter();
+}
+
+// ─── AUDIT ITEMS ───
+const AUDIT_ITEMS = [
+  { text: 'I spend more when friends around me spend more', driver: 'Social', risk: 'Lifestyle inflation' },
+  { text: 'I avoid investing because I fear losing money', driver: 'Psychological', risk: 'Loss aversion' },
+  { text: 'My financial decisions are mostly reactive, not planned', driver: 'Strategic', risk: 'Lack of system' },
+  { text: 'I often make purchases to feel better emotionally', driver: 'Psychological', risk: 'Emotional spending' },
+  { text: 'My income level makes me feel like saving is impossible', driver: 'Income', risk: 'Fixed mindset on wealth' },
+  { text: 'I haven\'t updated my financial plan in over a year', driver: 'Strategic', risk: 'Stale planning' },
+];
+
+function buildAudit() {
+  const saved = S.get('audit') || [];
+  document.getElementById('auditList').innerHTML = AUDIT_ITEMS.map((item, i) =>
+    `<div class="check-item${saved.includes(i)?' checked':''}" id="ai${i}" onclick="toggleAudit(${i})">
+      <div class="check-box" id="acb${i}">${saved.includes(i)?'✓':''}</div>
+      ${item.text}
+    </div>`
+  ).join('');
+}
+
+function toggleAudit(i) {
+  let saved = S.get('audit') || [];
+  saved.includes(i) ? saved.splice(saved.indexOf(i),1) : saved.push(i);
+  S.set('audit', saved);
+  buildAudit();
+}
+
+function calcAudit() {
+  const checked = S.get('audit') || [];
+  const r = document.getElementById('auditResult');
+  r.classList.add('show');
+  const drivers = checked.map(i => AUDIT_ITEMS[i].driver);
+  const risks = checked.map(i => AUDIT_ITEMS[i].risk);
+  const dominant = drivers.length ? drivers.sort((a,b) => drivers.filter(v=>v===b).length - drivers.filter(v=>v===a).length)[0] : 'None identified';
+  document.getElementById('ar_driver').textContent = dominant;
+  document.getElementById('ar_risk').textContent = checked.length > 3 ? 'High' : checked.length > 1 ? 'Moderate' : 'Low';
+  document.getElementById('ar_watch').textContent = risks[0] || 'Stay aware';
+  document.getElementById('ar_note').textContent = checked.length === 0
+    ? 'No flags checked — either you\'re highly self-aware or just getting started. Revisit this after Module 2.'
+    : `You identified ${checked.length} active influence(s). Your dominant driver is ${dominant}-based. This isn't a problem — it's information. Use it.`;
+}
+
+// ─── MOD 1: 50/30/20 ───
+function calc5030() {
+  const inc = parseFloat(document.getElementById('m1_income').value) || 0;
+  const needs = inc * 0.5, wants = inc * 0.3, save = inc * 0.2;
+  const r = document.getElementById('m1_result');
+  r.classList.add('show');
+  document.getElementById('m1_needs').textContent = fmtD(needs);
+  document.getElementById('m1_wants').textContent = fmtD(wants);
+  document.getElementById('m1_save').textContent = fmtD(save);
+  document.getElementById('m1_bars').innerHTML = `
+    <div class="bbar-row"><div class="bbar-lbl">Needs (50%)</div><div class="bbar-track"><div class="bbar-fill" style="width:50%"></div></div><div class="bbar-val">${fmtD(needs)}</div></div>
+    <div class="bbar-row"><div class="bbar-lbl">Wants (30%)</div><div class="bbar-track"><div class="bbar-fill" style="width:30%"></div></div><div class="bbar-val">${fmtD(wants)}</div></div>
+    <div class="bbar-row"><div class="bbar-lbl">Savings (20%)</div><div class="bbar-track"><div class="bbar-fill" style="width:20%;background:var(--green)"></div></div><div class="bbar-val">${fmtD(save)}</div></div>`;
+  S.set('m1_income', inc);
+}
+
+// ─── MOD 2: Compound ───
+function calcCompound() {
+  const P = parseFloat(document.getElementById('m2_principal').value) || 0;
+  const m = parseFloat(document.getElementById('m2_monthly').value) || 0;
+  const r = parseFloat(document.getElementById('m2_rate').value) / 100 || 0;
+  const n = parseInt(document.getElementById('m2_years').value) || 0;
+  const monthly_r = r / 12;
+  const months = n * 12;
+  let fv = P * Math.pow(1 + monthly_r, months);
+  if (monthly_r > 0) fv += m * (Math.pow(1 + monthly_r, months) - 1) / monthly_r;
+  else fv += m * months;
+  const contrib = P + m * months;
+  const interest = fv - contrib;
+  const res = document.getElementById('m2_result');
+  res.classList.add('show');
+  document.getElementById('m2_fv').textContent = fmtD(fv);
+  document.getElementById('m2_contrib').textContent = fmtD(contrib);
+  document.getElementById('m2_interest').textContent = fmtD(interest);
+  document.getElementById('m2_mult').textContent = (fv/Math.max(contrib,1)).toFixed(2) + '×';
+  document.getElementById('m2_note').textContent = `Over ${n} years at ${pct(r*100)} annually, your money grows by ${pct((fv/Math.max(contrib,1)-1)*100)}. The market does the heavy lifting — you just have to start.`;
+}
+
+// ─── MOD 3: Bank ───
+function calcBank() {
+  const bal = parseFloat(document.getElementById('m3_bal').value) || 0;
+  const cur = parseFloat(document.getElementById('m3_cur').value) / 100 || 0;
+  const hy = parseFloat(document.getElementById('m3_hysa').value) / 100 || 0;
+  const curEarn = bal * cur, hyEarn = bal * hy;
+  const diff = hyEarn - curEarn;
+  const r = document.getElementById('m3_result');
+  r.classList.add('show');
+  document.getElementById('m3_cur_earn').textContent = fmtD(curEarn);
+  document.getElementById('m3_hy_earn').textContent = fmtD(hyEarn);
+  document.getElementById('m3_diff').textContent = fmtD(diff);
+  document.getElementById('m3_5yr').textContent = '-' + fmtD(diff * 5);
+}
+
+// ─── MOD 4: True Loan Cost ───
+function calcLoanCost() {
+  const P = parseFloat(document.getElementById('m4_amt').value) || 0;
+  const r = parseFloat(document.getElementById('m4_rate').value) / 100 / 12 || 0;
+  const n = parseInt(document.getElementById('m4_term').value) || 1;
+  const pmt = r > 0 ? P * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1) : P/n;
+  const total = pmt * n, interest = total - P;
+  const res = document.getElementById('m4_result');
+  res.classList.add('show');
+  document.getElementById('m4_pmt').textContent = fmtD(pmt);
+  document.getElementById('m4_total').textContent = fmtD(total);
+  document.getElementById('m4_int').textContent = fmtD(interest);
+  document.getElementById('m4_pct').textContent = pct(interest/P*100);
+  document.getElementById('m4_note').textContent = interest/P > 0.3
+    ? 'Warning: you\'re paying more than 30% of principal in interest. Consider a shorter term or lower rate if possible.'
+    : 'Interest cost is reasonable. Compare this with other lenders before committing.';
+}
+
+// ─── MOD 5: Credit ───
+function updateMeter() {
+  const score = parseInt(document.getElementById('m5_score')?.value) || 580;
+  const clamped = Math.max(300, Math.min(850, score));
+  const pct_ = (clamped - 300) / 550 * 100;
+  const needle = document.getElementById('scoreNeedle');
+  if (needle) needle.style.left = pct_ + '%';
+}
+
+function calcCredit() {
+  const score = parseInt(document.getElementById('m5_score').value) || 600;
+  const util = parseFloat(document.getElementById('m5_util').value) || 0;
+  const miss = parseInt(document.getElementById('m5_miss').value) || 0;
+  const age = parseInt(document.getElementById('m5_age').value) || 0;
+  const r = document.getElementById('m5_result');
+  r.classList.add('show');
+  let range, mrate, action, note;
+  if (score >= 800) { range = 'Exceptional'; mrate = '~6.0%'; action = 'Optimize'; note = 'You\'re in the top tier. Focus on optimizing utilization and maintaining length.'; }
+  else if (score >= 740) { range = 'Very Good'; mrate = '~6.3%'; action = 'Maintain'; note = 'You qualify for best rates. Keep utilization under 10% to push into Exceptional.'; }
+  else if (score >= 670) { range = 'Good'; mrate = '~6.8%'; action = 'Reduce Util'; note = 'Good standing. Biggest lever: get utilization below 30%, ideally below 10%.'; }
+  else if (score >= 580) { range = 'Fair'; mrate = '~7.5%+'; action = 'Pay On Time'; note = 'Every on-time payment helps. Set up autopay for minimums immediately. Dispute any errors on your report.'; }
+  else { range = 'Poor'; mrate = '~9%+'; action = 'Secured Card'; note = 'Start with a secured credit card — use it for one small recurring charge, pay it off monthly. Rebuilding takes 12–24 months of consistency.'; }
+  if (miss > 0 && score > 580) note += ` ${miss} missed payment(s) noted — these stay on your report 7 years but lose impact after 2 years.`;
+  document.getElementById('m5_range').textContent = range;
+  document.getElementById('m5_mrate').textContent = mrate;
+  document.getElementById('m5_action').textContent = action;
+  document.getElementById('m5_note').textContent = note;
+}
+
+// ─── MOD 6: Risk ───
+function calcRisk() {
+  const time = parseInt(document.getElementById('m6_time').value) || 5;
+  const ef = parseInt(document.getElementById('m6_ef').value) || 0;
+  const job = parseInt(document.getElementById('m6_job').value) || 3;
+  const react = parseInt(document.getElementById('m6_react').value) || 3;
+  const gut = parseInt(document.getElementById('m6_gut').value) || 5;
+  const score = (Math.min(time/30,1)*25) + (Math.min(ef/6,1)*15) + (job/5*10) + (react/5*25) + (gut/10*25);
+  const r = document.getElementById('m6_result');
+  r.classList.add('show');
+  let profile, stocks, bonds, note;
+  if (score >= 75) { profile = 'Aggressive'; stocks = '90%'; bonds = '10%'; note = 'Long horizon + high tolerance. You can ride volatility. Low-cost total market index funds are your friend.'; }
+  else if (score >= 55) { profile = 'Moderate-Growth'; stocks = '70%'; bonds = '30%'; note = 'Solid balance. A classic 70/30 portfolio. Rebalance annually.'; }
+  else if (score >= 35) { profile = 'Moderate'; stocks = '50%'; bonds = '50%'; note = 'Classic balanced allocation. Consider target-date funds for automatic rebalancing.'; }
+  else { profile = 'Conservative'; stocks = '30%'; bonds = '70%'; note = 'Capital preservation is priority. Short-term bonds, CDs, and high-yield savings should anchor your portfolio.'; }
+  document.getElementById('m6_profile').textContent = profile;
+  document.getElementById('m6_stocks').textContent = stocks;
+  document.getElementById('m6_bonds').textContent = bonds;
+  document.getElementById('m6_note').textContent = note;
+}
+
+// ─── MOD 7: Investments ───
+const ASSETS = {
+  savings: { safe:'Very High', risk:'Very Low', ret: 4.5, liq:'Instant', best:'Emergency fund, short-term goals', note:'Guaranteed by FDIC. Currently competitive due to high interest rate environment.' },
+  bonds:   { safe:'High', risk:'Low', ret: 4.8, liq:'1–3 days', best:'Capital preservation, income', note:'US Treasuries are the safest bond. Rate risk: prices fall when rates rise.' },
+  index:   { safe:'Moderate', risk:'Moderate', ret: 10.0, liq:'1–3 days', best:'Long-term wealth building (10+ yrs)', note:'S&P 500 avg ~10%/yr nominal since 1926. Best risk-adjusted choice for most people.' },
+  growth:  { safe:'Low', risk:'High', ret: 13.0, liq:'1–3 days', best:'Aggressive long-term growth (15+ yrs)', note:'Higher expected return, but 30–40% drawdowns are normal. Only with money you won\'t need for 15+ years.' },
+  reit:    { safe:'Moderate', risk:'Moderate-High', ret: 8.5, liq:'Days–months', best:'Income + inflation hedge', note:'Real estate exposure without owning property. Dividends required by law. Illiquid if physical.' },
+  crypto:  { safe:'Very Low', risk:'Very High', ret: 20, liq:'Hours–days', best:'Speculative only', note:'Extraordinarily volatile. Never more than 5% of a serious portfolio. Past returns don\'t predict future.' },
+};
+
+function calcInvest() {
+  const amt = parseFloat(document.getElementById('m7_amt').value) || 10000;
+  const type = document.getElementById('m7_type').value;
+  const yrs = parseInt(document.getElementById('m7_yrs').value) || 10;
+  const a = ASSETS[type];
+  const fv = amt * Math.pow(1 + a.ret/100, yrs);
+  const r = document.getElementById('m7_result');
+  r.classList.add('show');
+  document.getElementById('m7_safe').textContent = a.safe;
+  document.getElementById('m7_risk').textContent = a.risk;
+  document.getElementById('m7_ret').textContent = pct(a.ret) + '/yr (historical avg)';
+  document.getElementById('m7_liq').textContent = a.liq;
+  document.getElementById('m7_proj').textContent = fmtD(fv);
+  document.getElementById('m7_best').textContent = a.best;
+  document.getElementById('m7_note').textContent = a.note + ` Projected growth of ${fmtD(amt)} over ${yrs} years at historical avg rate.`;
+}
+
+// ─── MOD 8: Tax ───
+const BRACKETS_2024 = {
+  single: [[11600,0.10],[47150,0.12],[100525,0.22],[191950,0.24],[243725,0.32],[609350,0.35],[Infinity,0.37]],
+  mfj:    [[23200,0.10],[94300,0.12],[201050,0.22],[383900,0.24],[487450,0.32],[731200,0.35],[Infinity,0.37]],
+  hoh:    [[16550,0.10],[63100,0.12],[100500,0.22],[191950,0.24],[243700,0.32],[609350,0.35],[Infinity,0.37]],
+};
+const STD = { single:14600, mfj:29200, hoh:21900 };
+
+function calcTaxFromIncome(income, status) {
+  const brackets = BRACKETS_2024[status];
+  let tax = 0, prev = 0;
+  for (const [limit, rate] of brackets) {
+    if (income <= 0) break;
+    const taxable = Math.min(income, limit - prev);
+    tax += taxable * rate;
+    income -= taxable;
+    prev = limit;
+  }
+  return tax;
+}
+
+function getMarginalRate(income, status) {
+  const brackets = BRACKETS_2024[status];
+  let prev = 0;
+  for (const [limit, rate] of brackets) {
+    if (income <= limit) return rate;
+    prev = limit;
+  }
+  return 0.37;
+}
+
+function calcTax() {
+  const gross = parseFloat(document.getElementById('m8_gross').value) || 0;
+  const status = document.getElementById('m8_status').value;
+  const pretax = parseFloat(document.getElementById('m8_pretax').value) || 0;
+  const extra = parseFloat(document.getElementById('m8_itemize').value) || 0;
+  const agi = gross - pretax;
+  const deduction = STD[status] + extra;
+  const taxable = Math.max(0, agi - deduction);
+  const tax = calcTaxFromIncome(taxable, status);
+  const effRate = gross > 0 ? tax/gross*100 : 0;
+  const marginal = getMarginalRate(taxable, status);
+  const r = document.getElementById('m8_result');
+  r.classList.add('show');
+  document.getElementById('m8_taxable').textContent = fmtD(taxable);
+  document.getElementById('m8_owed').textContent = fmtD(tax);
+  document.getElementById('m8_eff').textContent = pct(effRate);
+  document.getElementById('m8_bracket').textContent = pct(marginal*100);
+  document.getElementById('m8_note').textContent = `Your effective rate is ${pct(effRate)} — your marginal rate is ${pct(marginal*100)}. Only the last dollars you earn are taxed at ${pct(marginal*100)}.`;
+}
+
+// ─── MOD 9: Retire Tax ───
+function calcRetireTax() {
+  const inc = parseFloat(document.getElementById('m9_inc').value) || 0;
+  const contrib = parseFloat(document.getElementById('m9_contrib').value) || 0;
+  const status = document.getElementById('m9_status').value;
+  const std = STD[status];
+  const taxBefore = calcTaxFromIncome(Math.max(0, inc - std), status);
+  const taxAfter = calcTaxFromIncome(Math.max(0, inc - contrib - std), status);
+  const saved = taxBefore - taxAfter;
+  const netCost = contrib - saved;
+  const r = document.getElementById('m9_result');
+  r.classList.add('show');
+  document.getElementById('m9_before').textContent = fmtD(taxBefore);
+  document.getElementById('m9_after').textContent = fmtD(taxAfter);
+  document.getElementById('m9_save').textContent = fmtD(saved);
+  document.getElementById('m9_net').textContent = fmtD(netCost);
+  document.getElementById('m9_note').textContent = `Contributing ${fmtD(contrib)} only costs you ${fmtD(netCost)} after tax savings — the government effectively subsidizes ${pct(saved/contrib*100)} of your retirement contribution. Plus it grows tax-deferred.`;
+}
+
+// ─── MOD 10: Amortization ───
+function calcAmort() {
+  const P = parseFloat(document.getElementById('m10_amt').value) || 0;
+  const annRate = parseFloat(document.getElementById('m10_rate').value) || 0;
+  const totalTerm = parseInt(document.getElementById('m10_term').value) || 1;
+  const extra = parseFloat(document.getElementById('m10_extra').value) || 0;
+  const r = annRate / 100 / 12;
+  const pmt = r > 0 ? P * r * Math.pow(1+r,totalTerm) / (Math.pow(1+r,totalTerm)-1) : P/totalTerm;
+
+  // Standard schedule total interest
+  const stdTotal = pmt * totalTerm - P;
+
+  // Accelerated schedule
+  let bal = P, month = 0, accInt = 0, rows = [];
+  while (bal > 0.01 && month < totalTerm * 2) {
+    month++;
+    const intPmt = bal * r;
+    const prinPmt = Math.min(pmt - intPmt + extra, bal);
+    accInt += intPmt;
+    bal = Math.max(0, bal - prinPmt);
+    if (rows.length < 200) rows.push([month, pmt + (extra&&bal>0?extra:0), intPmt, prinPmt, bal]);
+  }
+  const saved = stdTotal - accInt;
+
+  const res = document.getElementById('m10_result');
+  res.classList.add('show');
+  document.getElementById('m10_pmt').textContent = fmtD(pmt + extra);
+  document.getElementById('m10_totint').textContent = fmtD(accInt);
+  document.getElementById('m10_payoff').textContent = month + (month < totalTerm ? ' (early!)' : '');
+  document.getElementById('m10_saved').textContent = extra > 0 ? fmtD(saved) : '$0';
+
+  const tbl = document.getElementById('m10_tbl');
+  const displayRows = rows.slice(0,60);
+  tbl.innerHTML = `<table>
+    <thead><tr><th>#</th><th>Payment</th><th>Interest</th><th>Principal</th><th>Balance</th></tr></thead>
+    <tbody>${displayRows.map(([m,p,i,pr,b]) =>
+      `<tr><td>${m}</td><td>${fmtD(p)}</td><td>${fmtD(i)}</td><td>${fmtD(pr)}</td><td>${fmtD(b)}</td></tr>`
+    ).join('')}${rows.length>60?`<tr class="sum-row"><td colspan="5">… ${rows.length-60} more rows — first 60 shown</td></tr>`:''}
+    <tr class="sum-row"><td>Total</td><td>—</td><td>${fmtD(accInt)}</td><td>${fmtD(P)}</td><td>$0.00</td></tr>
+    </tbody></table>`;
+}
+
+// ─── MOD 11: Mortgage ───
+function mortgageCalc(price, down, rate, termYrs) {
+  const principal = price - down;
+  const r = rate / 100 / 12;
+  const n = termYrs * 12;
+  const pmt = r > 0 ? principal * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1) : principal/n;
+  const total = pmt * n;
+  const interest = total - principal;
+  const downPct = price > 0 ? down/price*100 : 0;
+  const pmi = downPct < 20 ? principal * 0.01 / 12 : 0;
+  return { pmt, total, interest, principal, downPct, pmi };
+}
+
+function calcMortgage() {
+  const A = mortgageCalc(
+    parseFloat(document.getElementById('m11_priceA').value)||350000,
+    parseFloat(document.getElementById('m11_downA').value)||70000,
+    parseFloat(document.getElementById('m11_rateA').value)||6.5,
+    parseInt(document.getElementById('m11_termA').value)||30
+  );
+  const B = mortgageCalc(
+    parseFloat(document.getElementById('m11_priceB').value)||350000,
+    parseFloat(document.getElementById('m11_downB').value)||70000,
+    parseFloat(document.getElementById('m11_rateB').value)||6.0,
+    parseInt(document.getElementById('m11_termB').value)||15
+  );
+
+  const r = document.getElementById('m11_result');
+  r.classList.add('show');
+  const betterA = A.total < B.total;
+
+  document.getElementById('m11_compare').innerHTML = `
+    <div class="cmp-card${betterA?' winner':''}">
+      <h4>Option A ${betterA?'✓ Lower Cost':''}</h4>
+      <div class="cmp-row">Monthly Payment <span>${fmtD(A.pmt + A.pmi)}</span></div>
+      <div class="cmp-row">Total Paid <span>${fmtD(A.total)}</span></div>
+      <div class="cmp-row">Total Interest <span style="color:var(--red)">${fmtD(A.interest)}</span></div>
+      <div class="cmp-row">Down % <span>${pct(A.downPct)}</span></div>
+      ${A.pmi>0?`<div class="cmp-row">PMI (monthly) <span style="color:var(--red)">${fmtD(A.pmi)}</span></div>`:''}
+    </div>
+    <div class="cmp-card${!betterA?' winner':''}">
+      <h4>Option B ${!betterA?'✓ Lower Cost':''}</h4>
+      <div class="cmp-row">Monthly Payment <span>${fmtD(B.pmt + B.pmi)}</span></div>
+      <div class="cmp-row">Total Paid <span>${fmtD(B.total)}</span></div>
+      <div class="cmp-row">Total Interest <span style="color:var(--red)">${fmtD(B.interest)}</span></div>
+      <div class="cmp-row">Down % <span>${pct(B.downPct)}</span></div>
+      ${B.pmi>0?`<div class="cmp-row">PMI (monthly) <span style="color:var(--red)">${fmtD(B.pmi)}</span></div>`:''}
+    </div>`;
+
+  const interestDiff = Math.abs(A.interest - B.interest);
+  const pmtDiff = Math.abs(A.pmt - B.pmt);
+  document.getElementById('m11_note').textContent =
+    `The lower-total-cost option saves ${fmtD(interestDiff)} in interest over the life of the loan. Monthly payment difference: ${fmtD(pmtDiff)}/mo. Consider your cash flow needs — the lower monthly payment option may be worth the extra interest if flexibility matters.`;
+}
+
+// ─── INIT ───
+function init() {
+  buildNav();
+  buildModules();
+  // Restore scroll position for current module
+  if (currentMod !== 0) {
+    setTimeout(() => {
+      document.querySelectorAll('.module')[currentMod]?.scrollIntoView({ block:'start', behavior:'instant' });
+    }, 50);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
